@@ -3,14 +3,24 @@ package ec.espol.edu;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Chupa4 extends Carta {
+public class Chupa4 extends CartaComodin {
     public Chupa4() {
         this.color=Color.N;
+        this.tipo = "+4";
+    }
+
+    public Chupa4(Color color) {
+        super(color);
+        this.tipo = "+4";
     }
 
     @Override
     public boolean puedeJugar(Carta otraCarta) {
-        return true; // Puede jugarse en cualquier momento
+        if(color.equals(Color.N)){
+            return true;
+        }else{
+            return otraCarta.getColor().equals(this.color) || otraCarta instanceof Chupa4;
+        }
     }
     public void cambiarColor() {
         Scanner s = new Scanner(System.in);
@@ -52,9 +62,5 @@ public class Chupa4 extends Carta {
                 this.color = Color.R;
                 break;
         }
-    }
-    @Override
-    public String toString() {
-        return " CartaEspecial [signo= +4, color: "+ this.color+"]";
     }
 }

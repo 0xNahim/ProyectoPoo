@@ -3,12 +3,11 @@ package ec.espol.edu;
 import java.util.Random;
 import java.util.Scanner;
 
-public class CambioColor extends Carta {
-    //private Tipo tipo;
+public class CambioColor extends CartaComodin {
 
     public CambioColor(Color color) {
         this.color = color;
-    //    this.tipo = tipo;
+        this.tipo = "%";
     }
 
     @Override
@@ -58,10 +57,5 @@ public class CambioColor extends Carta {
                 this.color = Color.R;
                 break;
         }
-    }
-
-    @Override
-    public String toString() {
-        return " CartaEspecial [signo= %, color: " + color + "]";
     }
 }
