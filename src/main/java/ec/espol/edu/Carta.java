@@ -4,8 +4,10 @@ public abstract class Carta {
     protected Color color;
     public Carta(){}
     public Carta(Color color) {
-        if(color!=Color.N)
-        this.color = color;
+        if(color!=Color.N){
+            this.color = color;
+        }
+        
     }
 
     public Color getColor() {

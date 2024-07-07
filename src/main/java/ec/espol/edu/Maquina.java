@@ -7,13 +7,21 @@ public class Maquina extends Jugador {
     }
 
     public Carta jugarCarta(Carta cartaActual) {
+        
         for (Carta carta : mano.getMazo()) {
             if (carta.puedeJugar(cartaActual)) {
                 mano.getMazo().remove(carta);
                 return carta;
             }
         }
-        // Si no puede jugar ninguna carta, roba una carta
         return null;
+        
+        
+    }
+
+
+    @Override
+    public String toString() {
+        return "Jugador [nombre=" + nombre + ", mano=" + mano.getMazo()+ "]";
     }
 }
