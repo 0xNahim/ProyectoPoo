@@ -15,9 +15,4 @@ public abstract class Carta {
     }
 
     public abstract boolean puedeJugar(Carta otraCarta);
-
-    @Override
-    public String toString() {
-        return " Carta[color=" + color + "]";
-    }
 }

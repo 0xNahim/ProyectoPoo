@@ -45,7 +45,7 @@ public class Deck {
         for (int i = 0; i < 2; i++) {
             mazo.add(new Chupa2());
             mazo.add(new Chupa4());
-            mazo.add(new CambioColor(Color.N));
+            mazo.add(new CambioColor());
         }
     }
     public void barajar() {

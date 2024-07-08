@@ -19,9 +19,4 @@ public class Maquina extends Jugador {
         
     }
 
-
-    @Override
-    public String toString() {
-        return "Jugador [nombre=" + nombre + ", mano=" + mano.getMazo()+ "]";
-    }
 }

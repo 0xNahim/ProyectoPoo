@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class CambioColor extends CartaComodin {
 
-    public CambioColor(Color color) {
-        this.color = color;
+    public CambioColor() {
+        this.color = Color.N;
         this.tipo = "%";
     }
 
