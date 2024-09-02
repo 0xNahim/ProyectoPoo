@@ -1,0 +1,124 @@
+    private void jugarCartaBlanca() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona el tipo de carta");
+
+        // Opciones para elegir entre carta normal o especial
+        String[] opciones = {"Normal", "Especial"};
+        builder.setItems(opciones, (dialog, which) -> {
+            if (which == 0) {
+                // Si elige "Normal", muestra el diálogo para seleccionar el número y el color
+                mostrarDialogoSeleccionNormal();
+            } else {
+                // Si elige "Especial", muestra el diálogo para seleccionar el tipo y el color
+                mostrarDialogoSeleccionEspecial();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void mostrarDialogoSeleccionNormal() {
+        // Diálogo para seleccionar número y color de la carta normal
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona el número y el color");
+
+        // Opciones de colores y números
+        String[] colores = {"Amarillo", "Azul", "Rojo", "Verde"};
+        String[] numeros = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
+        builder.setItems(colores, (dialog, colorIndex) -> {
+            AlertDialog.Builder numeroBuilder = new AlertDialog.Builder(this);
+            numeroBuilder.setTitle("Selecciona el número");
+            numeroBuilder.setItems(numeros, (dialog1, numeroIndex) -> {
+                // Crear la nueva carta normal con el color y número seleccionados
+                CartaNormal nuevaCarta = new CartaNormal(numeroIndex, Color.values()[colorIndex]);
+                configurarCartaEnCentral(nuevaCarta, width * 2, height * 2);
+            });
+            numeroBuilder.show();
+        });
+
+        builder.show();
+    }
+
+    private void mostrarDialogoSeleccionEspecial() {
+        // Diálogo para seleccionar tipo y color de la carta especial
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona el tipo de carta especial y el color");
+
+        // Opciones de colores y tipos especiales
+        String[] colores = {"Amarillo", "Azul", "Rojo", "Verde"};
+        String[] tiposEspeciales = {"Roba 2", "Roba 4", "Reversa", "Bloqueo", "CambioColor"};
+
+        builder.setItems(colores, (dialog, colorIndex) -> {
+            AlertDialog.Builder tipoBuilder = new AlertDialog.Builder(this);
+            tipoBuilder.setTitle("Selecciona el tipo de carta especial");
+            tipoBuilder.setItems(tiposEspeciales, (dialog1, tipoIndex) -> {
+                CartaComodin nuevaCartaEspecial;
+                Color colorSeleccionado = Color.values()[colorIndex];
+
+                // Crear la carta especial según la selección del usuario
+                switch (tipoIndex) {
+                    case 0: nuevaCartaEspecial = new Chupa2(colorSeleccionado); break;
+                    case 1: nuevaCartaEspecial = new Chupa4(colorSeleccionado); break;
+                    case 2: nuevaCartaEspecial = new Reversa(colorSeleccionado); break;
+                    case 3: nuevaCartaEspecial = new Bloqueo(colorSeleccionado); break;
+                    default: nuevaCartaEspecial = new CambioColor(); // Para el cambio de color no se define color fijo
+                }
+
+                // Transformar la carta blanca en la nueva carta especial y realizar su acción
+                configurarCartaEnCentral(nuevaCartaEspecial, width * 2, height * 2);
+                realizarAccionCartaEspecial(nuevaCartaEspecial);
+            });
+            tipoBuilder.show();
+        });
+
+        builder.show();
+    }
+
+    private void realizarAccionCartaEspecial(CartaComodin cartaEspecial) {
+        // Realiza la acción correspondiente a la carta especial jugada
+        if (cartaEspecial instanceof Chupa2) {
+            for (int i = 0; i < 2; i++) {
+                Carta nuevaCarta = deckjuego.robarCarta();
+                b.mano.getMazo().add(nuevaCarta);
+                agregarCartaConClick(mazoMaquina, nuevaCarta);
+            }
+        } else if (cartaEspecial instanceof Chupa4) {
+            for (int i = 0; i < 4; i++) {
+                Carta nuevaCarta = deckjuego.robarCarta();
+                b.mano.getMazo().add(nuevaCarta);
+                agregarCartaConClick(mazoMaquina, nuevaCarta);
+            }
+        } else if (cartaEspecial instanceof Reversa || cartaEspecial instanceof Bloqueo) {
+            turnoActual++;
+            turnoActual++;
+        } else if (cartaEspecial instanceof CambioColor) {
+            mostrarDialogoSeleccionColor(cartaEspecial);
+        }
+    }
+    private void intercambiarMazos() {
+        // Intercambiar los mazos lógicamente
+        Deck mazoTemporal = b.mano;
+        b.mano = a.mano;
+        a.mano = mazoTemporal;
+
+        // Limpiar las vistas actuales de los mazos
+        mazoJugador.removeAllViews();
+        mazoMaquina.removeAllViews();
+
+        // Actualizar visualmente el mazo del jugador
+        for (Carta carta : a.mano.getMazo()) {
+            agregarCartaConClick(mazoJugador, carta);
+        }
+
+        // Actualizar visualmente el mazo de la máquina
+        for (Carta carta : b.mano.getMazo()) {
+            if(carta instanceof Blanco){
+                continue;
+            }
+            agregarCartaConClick(mazoMaquina, carta);
+        }
+
+        Toast.makeText(this, "Los mazos han sido intercambiados", Toast.LENGTH_SHORT).show();
+    }
