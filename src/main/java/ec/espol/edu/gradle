@@ -1,7 +1,7 @@
     private void jugarCartaBlanca() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Selecciona el tipo de carta");
+        builder.setTitle("Selecciona el tipo de carta:");
 
         // Opciones para elegir entre carta normal o especial
         String[] opciones = {"Normal", "Especial"};
@@ -21,7 +21,7 @@
     private void mostrarDialogoSeleccionNormal() {
         // Diálogo para seleccionar número y color de la carta normal
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Selecciona el número y el color");
+        builder.setTitle("Selecciona el número y el color:");
 
         // Opciones de colores y números
         String[] colores = {"Amarillo", "Azul", "Rojo", "Verde"};
@@ -29,7 +29,7 @@
 
         builder.setItems(colores, (dialog, colorIndex) -> {
             AlertDialog.Builder numeroBuilder = new AlertDialog.Builder(this);
-            numeroBuilder.setTitle("Selecciona el número");
+            numeroBuilder.setTitle("Selecciona el número:");
             numeroBuilder.setItems(numeros, (dialog1, numeroIndex) -> {
                 // Crear la nueva carta normal con el color y número seleccionados
                 CartaNormal nuevaCarta = new CartaNormal(numeroIndex, Color.values()[colorIndex]);
