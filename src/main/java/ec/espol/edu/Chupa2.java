@@ -34,7 +34,7 @@ public class Chupa2 extends CartaComodin {
                 this.color = Color.R;
                 break;
             default:
-                System.out.println("Color no válido, elige de nuevo. Por favor :)");
+                System.out.println("Color no válido, elige de nuevo. Por favor");
                 cambiarColor();
                 break;
         }
